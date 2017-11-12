@@ -1,6 +1,6 @@
 # \<titanium-grid\>
 
-titanium-grid is a free, high-quality data grid / data table @Polymer elementPolymer element
+titanium-grid is a free, high-quality data grid / data table @Polymer element
 
 ## Install the Polymer-CLI
 
@@ -17,5 +17,3 @@ $ polymer serve
 ```
 $ polymer test
 ```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
