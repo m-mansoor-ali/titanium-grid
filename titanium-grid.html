@@ -1,0 +1,176 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
+
+<link rel="import" href="bower_components/paper-material/paper-material.html">
+<link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+
+<dom-module id="titanium-grid">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-material{
+        overflow-x:auto;
+      }
+      table {
+          width: 100%;
+          display: table;
+          border-collapse: collapse;
+          border-spacing: 0;
+      }
+      table, th, td {
+          border: none;
+      }
+      thead {
+          display: table-header-group;
+          vertical-align: middle;
+          border-color: inherit;
+      }
+      thead {
+          border-bottom: 1px solid #d0d0d0;
+      }
+      tbody {
+          display: table-row-group;
+          vertical-align: middle;
+          border-color: inherit;
+      }
+      td, th {
+          padding: 15px 15px;
+          display: table-cell;
+          text-align: left;
+          vertical-align: middle;
+          border-radius: 2px;
+          font-weight: 300;
+      }
+      th{
+        font-size: 15px;
+        color: gray;
+      }
+      th .columnTitle{
+        cursor: pointer;
+      }
+      table.striped>tbody>tr:nth-child(odd){
+        background-color:#f2f2f2
+      }
+      table.striped>tbody>tr>td{
+        border-radius:0
+      }
+      table.highlight>tbody>tr{
+        -webkit-transition:background-color .25s ease;transition:background-color .25s ease
+      }
+      table.highlight>tbody>tr:hover{
+        background-color:#f2f2f2
+      }
+      table.centered thead tr th,table.centered tbody tr td{
+        text-align:center
+      }
+      .gridTitle{
+        font-weight: 400;
+        font-size: 25px;
+        color: rgb(87, 87, 87);
+        padding-left: 15px;
+        padding-top: 15px;
+        padding-bottom: 5px;
+      }
+      .gridPagination{
+        padding: 15px;
+        font-size: 12px;
+        font-weight: 100;
+        color: gray;
+        float: right;
+      }
+    </style>
+
+    <paper-material elevation="{{elevation}}">
+      <template is="dom-if" if="{{gridtitle}}">
+        <div class="gridTitle">
+          <span>{{gridtitle}}</span>
+        </div>
+      </template>
+        <table class$="{{rowstyle}}">
+            <thead>
+              <tr>
+                <template is="dom-repeat" items="{{columns}}">
+                    <th><span class="columnTitle">{{item.value}}</span></th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+              <template is="dom-repeat" items="{{content}}">
+                <tr>
+                    <td><span class="columnTitle">{{item.name}}</span></td>
+                    <td><span class="columnTitle">{{item.email}}</span></td>
+                    <td><span class="columnTitle">{{item.job}}</span></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <div class="gridPagination">
+            <span>Rows per page: </span>
+            <paper-dropdown-menu>
+                <paper-listbox slot="dropdown-content" selected="0">
+                  <paper-item>5</paper-item>
+                  <paper-item>10</paper-item>
+                  <paper-item>15</paper-item>
+                  <paper-item>20</paper-item>
+                </paper-listbox>
+            </paper-dropdown-menu>
+            <button on-click="handleKick">Kick me !!!</button>
+          </div>
+    </paper-material>
+  </template>
+
+  <script>
+    /**
+     * `titanium-grid`
+     * titanium-grid is a free, high-quality data grid / data table @Polymer elementPolymer element
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class TitaniumGrid extends Polymer.Element {
+      static get is() { return 'titanium-grid'; }
+      static get properties() {
+        return {
+          elevation: {
+            type: String,
+            value: '1',
+            reflectToAttribute: true
+          },
+          rowstyle: {
+            type: String,
+            value: '',
+            reflectToAttribute: true
+          },
+          gridtitle:{
+            type: String,
+            value: '',
+            reflectToAttribute: true
+          },
+          url:{
+            type: String,
+            reflectToAttribute: true
+          },
+          columns: {
+            type: Object,
+            reflectToAttribute: true
+          },
+          content: {
+            type: Object,
+            reflectToAttribute: true,
+            notify: true
+          }
+        };
+      }
+      handleKick(){
+        this.dispatchEvent(new CustomEvent('kicked', {bubbles: true, composed: true, detail: {kicked: "zorr se"}}));
+      }
+    }
+
+    window.customElements.define(TitaniumGrid.is, TitaniumGrid);
+  </script>
+</dom-module>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>titanium-grid demo</title>
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="../titanium-grid.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>The awsome titanium-grid demo !!!</h3>
+      <demo-snippet>
+        <template>
+          <iron-ajax
+            id="iron-ajax"
+            auto
+            url="http://localhost:8080/user"
+            handle-as="json">
+          </iron-ajax>
+          
+          <titanium-grid 
+            id="titanium-grid"
+            elevation="2" 
+            rowstyle="striped"
+            gridtitle="User Details" 
+            columns='[{"key":"name","value":"Name"},{"key":"email","value":"Email Address"},{"key":"job","value":"Job Title"}]'
+            content=''
+            >
+          </titanium-grid>
+          
+          <script>
+              document.querySelector('iron-ajax').addEventListener('response', function (e) {
+                console.log(e.detail.response["content"]);
+                  document.querySelector('titanium-grid').content = e.detail.response["content"];
+              });
+
+              document.querySelector('titanium-grid').addEventListener('kicked', function (e) {
+                  console.log(e.detail.kicked); // true
+                  document.querySelector('titanium-grid').setAttribute('url','http://localhost:8080/user?size=30');
+              });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>
