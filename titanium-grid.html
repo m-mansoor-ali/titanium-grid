@@ -5,6 +5,8 @@
 <link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="titanium-grid">
   <template>
@@ -75,13 +77,38 @@
         padding-top: 15px;
         padding-bottom: 5px;
       }
+      tr.paginationRow, tr.paginationRow:hover{
+        background-color: white !important;
+      }
       .gridPagination{
-        padding: 15px;
         font-size: 12px;
         font-weight: 100;
         color: gray;
         float: right;
       }
+      paper-dropdown-menu{
+        width: 50px;
+      }
+    </style>
+
+    <style is="custom-style">
+        paper-dropdown-menu.custom {
+          --paper-input-container-label: {
+            color: var(--paper-pink-500);
+            font-style: italic;
+            text-align: center;
+            font-weight: bold;
+          };
+          --paper-input-container-input: {
+            font-style: normal;
+            text-transform: uppercase;
+            font-size: 14px;
+          };
+          /* no underline */
+          --paper-input-container-underline: {
+            display: none;
+          };
+        }
     </style>
 
     <paper-material elevation="{{elevation}}">
@@ -106,20 +133,27 @@
                     <td><span class="columnTitle">{{item.job}}</span></td>
                 </tr>
               </template>
+              <tr class="paginationRow">
+                <th colspan="3">
+                    <div class="gridPagination">
+                        <span>Rows per page : </span>&nbsp;&nbsp;
+                        <paper-dropdown-menu class="custom" >
+                            <paper-listbox slot="dropdown-content" selected="0">
+                              <paper-item>5</paper-item>
+                               <paper-item>10</paper-item>
+                              <paper-item>15</paper-item>
+                              <paper-item>20</paper-item>
+                            </paper-listbox>
+                         </paper-dropdown-menu>&nbsp;&nbsp;
+                        <span>1-5 of 200</span>&nbsp;
+                        <paper-icon-button on-click="handleKick" icon="chevron-left"></paper-icon-button>
+                        <paper-icon-button on-click="handleKick" icon="chevron-right"></paper-icon-button>
+                    </div>
+                </th>
+              </tr>
             </tbody>
           </table>
-          <div class="gridPagination">
-            <span>Rows per page: </span>
-            <paper-dropdown-menu>
-                <paper-listbox slot="dropdown-content" selected="0">
-                  <paper-item>5</paper-item>
-                  <paper-item>10</paper-item>
-                  <paper-item>15</paper-item>
-                  <paper-item>20</paper-item>
-                </paper-listbox>
-            </paper-dropdown-menu>
-            <button on-click="handleKick">Kick me !!!</button>
-          </div>
+          
     </paper-material>
   </template>
 
