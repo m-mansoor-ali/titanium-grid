@@ -1,19 +1,19 @@
-# \<titanium-grid\>
+`<titanium-grid>`
+===================
 
-titanium-grid is a free, high-quality data grid / data table @Polymer element
 
-## Install the Polymer-CLI
+[&lt;titanium-grid&gt;](https://github.com/M-Mansoor-Ali/titanium-grid/) is a free, high quality data grid / data table [Polymer](http://polymer-project.org) element.
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
+----------
 
-## Viewing Your Element
+<img src="https://github.com/M-Mansoor-Ali/titanium-grid/tree/master/demo/griddemo/gif">
 
-```
-$ polymer serve
-```
+## Running demos and tests in browser
 
-## Running Tests
+1. Fork the `titanuim-grid` repository and clone it locally.
 
-```
-$ polymer test
-```
+1. Make sure you have [npm](https://www.npmjs.com/) installed.
+
+1. When in the `titanuim-grid` directory, run `npm install` and then `bower install` to install dependencies.
+
+1. Run `polymer serve --open`, browser will automatically open the component API documentation.
