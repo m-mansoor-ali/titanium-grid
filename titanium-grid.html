@@ -16,6 +16,7 @@
       }
       paper-material{
         overflow-x:auto;
+        background-color: white;
       }
       table {
           width: 100%;
@@ -128,26 +129,25 @@
             <tbody>
               <template is="dom-repeat" items="{{content}}">
                 <tr>
-                    <td><span class="columnTitle">{{item.name}}</span></td>
-                    <td><span class="columnTitle">{{item.email}}</span></td>
-                    <td><span class="columnTitle">{{item.job}}</span></td>
+                  <template is="dom-repeat" items="{{columns}}" as="column">
+                    <td>[[getValueFromKey(item,column.key)]]</td>
+                  </template>
                 </tr>
               </template>
               <tr class="paginationRow">
-                <th colspan="3">
+                <th colspan="9999">
                     <div class="gridPagination">
                         <span>Rows per page : </span>&nbsp;&nbsp;
                         <paper-dropdown-menu class="custom" >
-                            <paper-listbox slot="dropdown-content" selected="0">
-                              <paper-item>5</paper-item>
-                               <paper-item>10</paper-item>
-                              <paper-item>15</paper-item>
-                              <paper-item>20</paper-item>
+                            <paper-listbox slot="dropdown-content" selected="{{pagesize}}" attr-for-selected="key">
+                              <template is="dom-repeat" items="{{sizeselectorlist}}">
+                                <paper-item key="{{item.key}}" >{{item.value}}</paper-item>
+                              </template>
                             </paper-listbox>
                          </paper-dropdown-menu>&nbsp;&nbsp;
-                        <span>1-5 of 200</span>&nbsp;
-                        <paper-icon-button on-click="handleKick" icon="chevron-left"></paper-icon-button>
-                        <paper-icon-button on-click="handleKick" icon="chevron-right"></paper-icon-button>
+                        <span>{{firstrow}} - {{lastrow}} of {{totalrows}}</span>&nbsp;
+                        <paper-icon-button on-tap="previousClicked" icon="chevron-left"></paper-icon-button>
+                        <paper-icon-button on-tap="nextClicked" icon="chevron-right"></paper-icon-button>
                     </div>
                 </th>
               </tr>
@@ -197,11 +197,55 @@
             type: Object,
             reflectToAttribute: true,
             notify: true
+          },
+          totalrows: {
+            type: Number,
+            reflectToAttribute: true
+          },
+          firstrow: {
+            type: Number,
+            reflectToAttribute: true
+          },
+          lastrow: {
+            type: Number,
+            reflectToAttribute: true
+          },
+          pagesize: {
+            type: Number,
+            reflectToAttribute: true,
+            observer: '_pageSizeUpdated'
+          },
+          pagenumber: {
+            type: Number,
+            reflectToAttribute: true
+          },
+          isfirstpage: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          islastpage: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          sizeselectorlist: {
+            type: Object,
+            reflectToAttribute: true
           }
         };
       }
-      handleKick(){
-        this.dispatchEvent(new CustomEvent('kicked', {bubbles: true, composed: true, detail: {kicked: "zorr se"}}));
+      getValueFromKey(item, key){
+        return item[key];
+      }
+      _pageSizeUpdated(newValue,oldValue){
+        if(!(oldValue === undefined) && !(newValue == oldValue)){
+          this.dispatchEvent(new CustomEvent('page-size-updated', {bubbles: true, composed: true, detail: {oldPageSize: oldValue, newPageSize: newValue}}));
+        }
+      }
+      previousClicked(){
+        this.dispatchEvent(new CustomEvent('previous-clicked', {bubbles: true, composed: true}));
+      }
+      nextClicked(){
+        this.dispatchEvent(new CustomEvent('next-clicked', {bubbles: true, composed: true}));
       }
     }
 
