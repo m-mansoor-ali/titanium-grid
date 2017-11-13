@@ -167,36 +167,61 @@
 
   <script>
     /**
-     * `titanium-grid`
-     * titanium-grid is a free, high-quality data grid / data table @Polymer elementPolymer element
+     * #`titanium-grid`
+     * `<titanium-grid>` is a free, high-quality data grid / data table @Polymer element
      *
      * @customElement
      * @polymer
      * @demo demo/index.html
      */
+
+     /**
+        * @event page-size-updated
+        * Fired when page size is changed.
+        * adds oldPageSize and newPageSize in event.detail
+        */
+        /**
+        * @event previous-clicked
+        * Fired when `previous` is clicked in the pagination.
+        */
+        /**
+        * @event next-clicked
+        * Fired when `next` is clicked in the pagination.
+        */
+        /**
+        * @event sort-clicked
+        * Fired when a column is clicked for sorting.
+        * adds sortKey and sortDirection in event.detail
+        */
+        
     class TitaniumGrid extends Polymer.Element {
       static get is() { return 'titanium-grid'; }
       static get properties() {
         return {
+          /** Elevation of the grid */
           elevation: {
             type: String,
             value: '1',
             reflectToAttribute: true
           },
+          /** Rowstyle of the grid i.e striped/highlight/centered */
           rowstyle: {
             type: String,
             value: '',
             reflectToAttribute: true
           },
+          /** Title of the grid */
           gridtitle:{
             type: String,
             value: '',
             reflectToAttribute: true
           },
-          url:{
-            type: String,
-            reflectToAttribute: true
-          },
+          /** 
+            * The column titles
+            * Array of key value pairs
+            * e.g [{"key":"titleKey","value":"titleDescription"}, {...}, {...}]
+            * titleKey will be included in the sort-clicked event as 'sortKey'
+           */
           columns: {
             type: Object,
             reflectToAttribute: true
@@ -206,45 +231,58 @@
             reflectToAttribute: true,
             notify: true
           },
+          /** Total number of rows */
           totalrows: {
             type: Number,
             reflectToAttribute: true
           },
+          /** Row number of the first row in the current page */
           firstrow: {
             type: Number,
             reflectToAttribute: true
           },
+          /** Row number of the last row in the current page */
           lastrow: {
             type: Number,
             reflectToAttribute: true
           },
+          /** Size of the current page */
           pagesize: {
             type: Number,
             reflectToAttribute: true,
             observer: '_pageSizeUpdated'
           },
+          /** Current page number */
           pagenumber: {
             type: Number,
             reflectToAttribute: true
           },
+          /** True if current page is the first page */
           isfirstpage: {
             type: Boolean,
             reflectToAttribute: true
           },
+          /** True if current page is the last page */
           islastpage: {
             type: Boolean,
             reflectToAttribute: true
           },
+          /** Column key  */
           sortkey:{
             type: String,
             reflectToAttribute: true,
             value: ''
           },
+          /** Direction of sort i.e 'asc' or 'desc'  */
           sortdirection: {
             type: String,
             reflectToAttribute: true,
             value: 'desc'
           },
+          /** 
+            * * Array of key value pairs to populate page size dropdown
+            * e.g [{"key":"5","value":"5"}, {"key":"10","value":"10"}, {"key":"15","value":"15"}]
+            */
           sizeselectorlist: {
             type: Object,
             reflectToAttribute: true
@@ -257,6 +295,7 @@
       isEqual(sortkey, key){
         return sortkey == key;
       }
+      
       _pageSizeUpdated(newValue,oldValue){
         if(!(oldValue === undefined) && !(newValue == oldValue)){
           this.dispatchEvent(new CustomEvent('page-size-updated', {bubbles: true, composed: true, detail: {oldPageSize: oldValue, newPageSize: newValue}}));
