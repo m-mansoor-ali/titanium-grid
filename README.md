@@ -6,7 +6,7 @@
 
 ----------
 
-<img src="https://github.com/M-Mansoor-Ali/titanium-grid/tree/master/demo/griddemo/gif">
+<img src="https://github.com/M-Mansoor-Ali/titanium-grid/tree/master/demo/griddemo.gif">
 
 ## Running demos and tests in browser
 
