@@ -33,29 +33,31 @@
                   url="{{url}}"
                   handle-as="json"
                   on-response="handleResponse"></iron-ajax>
-                    
-              <titanium-grid 
-                id="titaniumGrid"
-                elevation="2" 
-                rowstyle="striped"
-                columns='{{columns}}'
-                content='{{content}}'
-                totalrows='{{totalElements}}'
-                firstrow='{{firstRow}}'
-                lastrow='{{lastRow}}'
-                pagesize='{{pageSize}}'
-                pagenumber='{{pageNumber}}'
-                islastpage='{{isLastPage}}'
-                isfirstpage='{{isFirstPage}}'
-                sizeselectorlist = '{{sizeSelectorList}}'
-                sortkey='{{sortBy}}'
-                sortdirection="{{sortDirection}}"
-                on-page-size-updated = "updatePageSize"
-                on-previous-clicked="previousPage"
-                on-next-clicked="nextPage"
-                on-sort-clicked="sortClicked"
-                >
-                </titanium-grid>
+              <div>
+                <titanium-grid 
+                  id="titaniumGrid"
+                  elevation="2" 
+                  rowstyle="striped"
+                  columns='{{columns}}'
+                  gridtitle="{{title}}"
+                  content='{{content}}'
+                  totalrows='{{totalElements}}'
+                  firstrow='{{firstRow}}'
+                  lastrow='{{lastRow}}'
+                  pagesize='{{pageSize}}'
+                  pagenumber='{{pageNumber}}'
+                  islastpage='{{isLastPage}}'
+                  isfirstpage='{{isFirstPage}}'
+                  sizeselectorlist = '{{sizeSelectorList}}'
+                  sortkey='{{sortBy}}'
+                  sortdirection="{{sortDirection}}"
+                  on-page-size-updated = "updatePageSize"
+                  on-previous-clicked="previousPage"
+                  on-next-clicked="nextPage"
+                  on-sort-clicked="sortClicked"
+                  >
+                  </titanium-grid>
+                </div>
               </div>
             </template>
             <script>
