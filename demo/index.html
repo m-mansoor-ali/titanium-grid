@@ -21,9 +21,8 @@
   <body>
     <div class="vertical-section-container centered">
       <h3>Using titanium-grid inside another element</h3>
-      <demo-snippet>
-        <template>
-          <dom-module id="user-details">
+      
+          <dom-module id="titanium-grid-demo">
             <template>
               <style></style>
               <div class="maindiv">
@@ -74,8 +73,8 @@
                 "sort":[{"direction":"ASC","property":"email","ignoreCase":false,"nullHandling":"NATIVE","descending":false,"ascending":true}],"numberOfElements":5,"size":5,"number":0}
               */
               HTMLImports.whenReady(function() {
-                class UserDetails extends Polymer.Element {
-                  static get is() { return 'user-details'; }
+                class TitaniumGridDemo extends Polymer.Element {
+                  static get is() { return 'titanium-grid-demo'; }
                   static get properties() {
                     return {
                       attached: {
@@ -174,13 +173,12 @@
                     this.sortBy = event.detail.sortKey;
                   }
                 }
-                window.customElements.define(UserDetails.is, UserDetails);
+                window.customElements.define(TitaniumGridDemo.is, TitaniumGridDemo);
               });
             </script>
         </dom-module>
-        <user-details></user-details>
-        </template>
-      </demo-snippet>
+        <titanium-grid-demo></titanium-grid-demo>
+        
     </div>
   </body>
 </html>
