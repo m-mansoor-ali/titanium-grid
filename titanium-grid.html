@@ -123,7 +123,7 @@
               <tr>
                 <template is="dom-repeat" items="{{columns}}">
                     <th>
-                      <span class="columnTitle" on-tap="sortClicked">
+                      <span class="columnTitle" on-tap="sortClicked" id="column-{{item.key}}">
                         {{item.value}}
                         <span hidden$="[[!isEqual(sortkey, item.key)]]">
                           <iron-icon icon="arrow-drop-up" hidden$="[[sortDescending(sortDirection)]]"></iron-icon>
@@ -148,7 +148,7 @@
                     <th colspan="9999">
                         <div class="gridPagination">
                             <span>Rows per page : </span>&nbsp;&nbsp;
-                            <paper-dropdown-menu class="custom" >
+                            <paper-dropdown-menu class="custom">
                                 <paper-listbox slot="dropdown-content" selected="{{pageSize}}" attr-for-selected="key">
                                   <template is="dom-repeat" items="{{sizeSelectorList}}">
                                     <paper-item key="{{item.key}}" >{{item.value}}</paper-item>
@@ -156,8 +156,8 @@
                                 </paper-listbox>
                              </paper-dropdown-menu>&nbsp;&nbsp;
                             <span>{{firstRow}} - {{lastRow}} of {{totalRows}}</span>&nbsp;
-                            <paper-icon-button on-tap="previousClicked" icon="chevron-left"></paper-icon-button>
-                            <paper-icon-button on-tap="nextClicked" icon="chevron-right"></paper-icon-button>
+                            <paper-icon-button on-tap="previousClicked" icon="chevron-left" id="prev-button"></paper-icon-button>
+                            <paper-icon-button on-tap="nextClicked" icon="chevron-right" id="next-button"></paper-icon-button>
                         </div>
                     </th>
                   </tr>
@@ -226,7 +226,8 @@
            */
           columns: {
             type: Object,
-            reflectToAttribute: true
+            reflectToAttribute: true,
+            value: [{"key": "uid", "value": "ID"}]
           },
           content: {
             type: Object,
