@@ -113,12 +113,12 @@
     </style>
 
     <paper-material elevation="{{elevation}}">
-      <template is="dom-if" if="{{gridtitle}}">
+      <template is="dom-if" if="{{gridTitle}}">
         <div class="gridTitle">
-          <span>{{gridtitle}}</span>
+          <span>{{gridTitle}}</span>
         </div>
       </template>
-        <table class$="{{rowstyle}}">
+        <table class$="{{rowStyle}}">
             <thead>
               <tr>
                 <template is="dom-repeat" items="{{columns}}">
@@ -126,8 +126,8 @@
                       <span class="columnTitle" on-tap="sortClicked">
                         {{item.value}}
                         <span hidden$="[[!isEqual(sortkey, item.key)]]">
-                          <iron-icon icon="arrow-drop-up" hidden$="[[sortDescending(sortdirection)]]"></iron-icon>
-                          <iron-icon icon="arrow-drop-down" hidden$=[[sortAscending(sortdirection)]]></iron-icon>
+                          <iron-icon icon="arrow-drop-up" hidden$="[[sortDescending(sortDirection)]]"></iron-icon>
+                          <iron-icon icon="arrow-drop-down" hidden$=[[sortAscending(sortDirection)]]></iron-icon>
                         </span>
                       </span>
                     </th>
@@ -149,13 +149,13 @@
                         <div class="gridPagination">
                             <span>Rows per page : </span>&nbsp;&nbsp;
                             <paper-dropdown-menu class="custom" >
-                                <paper-listbox slot="dropdown-content" selected="{{pagesize}}" attr-for-selected="key">
-                                  <template is="dom-repeat" items="{{sizeselectorlist}}">
+                                <paper-listbox slot="dropdown-content" selected="{{pageSize}}" attr-for-selected="key">
+                                  <template is="dom-repeat" items="{{sizeSelectorList}}">
                                     <paper-item key="{{item.key}}" >{{item.value}}</paper-item>
                                   </template>
                                 </paper-listbox>
                              </paper-dropdown-menu>&nbsp;&nbsp;
-                            <span>{{firstrow}} - {{lastrow}} of {{totalrows}}</span>&nbsp;
+                            <span>{{firstRow}} - {{lastRow}} of {{totalRows}}</span>&nbsp;
                             <paper-icon-button on-tap="previousClicked" icon="chevron-left"></paper-icon-button>
                             <paper-icon-button on-tap="nextClicked" icon="chevron-right"></paper-icon-button>
                         </div>
@@ -206,14 +206,14 @@
             value: '1',
             reflectToAttribute: true
           },
-          /** Rowstyle of the grid i.e striped/highlight/centered */
-          rowstyle: {
+          /** Row Style of the grid i.e striped/highlight/centered */
+          rowStyle: {
             type: String,
-            value: '',
+            value: 'highlight',
             reflectToAttribute: true
           },
           /** Title of the grid */
-          gridtitle:{
+          gridTitle:{
             type: String,
             value: '',
             reflectToAttribute: true
@@ -234,49 +234,54 @@
             notify: true
           },
           /** Total number of rows */
-          totalrows: {
-            type: Number,
-            reflectToAttribute: true
-          },
-          /** Row number of the first row in the current page */
-          firstrow: {
-            type: Number,
-            reflectToAttribute: true
-          },
-          /** Row number of the last row in the current page */
-          lastrow: {
-            type: Number,
-            reflectToAttribute: true
-          },
-          /** Size of the current page */
-          pagesize: {
+          totalRows: {
             type: Number,
             reflectToAttribute: true,
-            observer: '_pageSizeUpdated'
+            value: 0
+          },
+          /** Row number of the first row in the current page */
+          firstRow: {
+            type: Number,
+            reflectToAttribute: true,
+            value: 0
+          },
+          /** Row number of the last row in the current page */
+          lastRow: {
+            type: Number,
+            reflectToAttribute: true,
+            value: 0
+          },
+          /** Size of the current page */
+          pageSize: {
+            type: Number,
+            reflectToAttribute: true,
+            observer: '_pageSizeUpdated',
+            value: 0
           },
           /** Current page number */
-          pagenumber: {
+          pageNumber: {
             type: Number,
-            reflectToAttribute: true
+            reflectToAttribute: true,
+            value: 0
           },
           /** True if current page is the first page */
-          isfirstpage: {
+          isFirstpage: {
             type: Boolean,
             reflectToAttribute: true
           },
           /** True if current page is the last page */
-          islastpage: {
+          isLastPage: {
             type: Boolean,
             reflectToAttribute: true
           },
           /** Column key  */
-          sortkey:{
+          sortKey:{
             type: String,
             reflectToAttribute: true,
             value: ''
           },
           /** Direction of sort i.e 'asc' or 'desc'  */
-          sortdirection: {
+          sortDirection: {
             type: String,
             reflectToAttribute: true,
             value: 'desc'
@@ -285,7 +290,7 @@
             * * Array of key value pairs to populate page size dropdown
             * e.g [{"key":"5","value":"5"}, {"key":"10","value":"10"}, {"key":"15","value":"15"}]
             */
-          sizeselectorlist: {
+          sizeSelectorList: {
             type: Object,
             reflectToAttribute: true
           }
@@ -317,12 +322,12 @@
       }
       sortClicked(event){
         this.sortkey = event.model.item.key;
-        if(this.sortdirection == 'asc'){
-          this.sortdirection = 'desc';
+        if(this.sortDirection == 'asc'){
+          this.sortDirection = 'desc';
         }else{
-          this.sortdirection = 'asc';
+          this.sortDirection = 'asc';
         }
-        this.dispatchEvent(new CustomEvent('sort-clicked', {bubbles: true, composed: true, detail: {sortKey: this.sortkey, sortDirection: this.sortdirection}}));
+        this.dispatchEvent(new CustomEvent('sort-clicked', {bubbles: true, composed: true, detail: {sortKey: this.sortkey, sortDirection: this.sortDirection}}));
       }
     }
 
