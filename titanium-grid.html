@@ -13,6 +13,7 @@
     <style>
       :host {
         display: block;
+        width: var(--titanium-grid-width, 700px);
       }
       paper-material{
         overflow-x:auto;
@@ -229,8 +230,7 @@
            */
           columns: {
             type: Object,
-            reflectToAttribute: true,
-            value: [{"key": "id", "value": "ID"}]
+            reflectToAttribute: true
           },
           content: {
             type: Object,
