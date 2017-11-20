@@ -48,6 +48,9 @@
           border-radius: 2px;
           font-weight: 300;
       }
+      td{
+        word-break: break-word;
+      }
       th{
         font-size: 15px;
         color: gray;
@@ -125,7 +128,7 @@
                     <th>
                       <span class="columnTitle" on-tap="sortClicked" id="column-{{item.key}}">
                         {{item.value}}
-                        <span hidden$="[[!isEqual(sortkey, item.key)]]">
+                        <span hidden$="[[!isEqual(sortKey, item.key)]]">
                           <iron-icon icon="arrow-drop-up" hidden$="[[sortDescending(sortDirection)]]"></iron-icon>
                           <iron-icon icon="arrow-drop-down" hidden$=[[sortAscending(sortDirection)]]></iron-icon>
                         </span>
@@ -227,7 +230,7 @@
           columns: {
             type: Object,
             reflectToAttribute: true,
-            value: [{"key": "uid", "value": "ID"}]
+            value: [{"key": "id", "value": "ID"}]
           },
           content: {
             type: Object,
@@ -266,7 +269,7 @@
             value: 0
           },
           /** True if current page is the first page */
-          isFirstpage: {
+          isFirstPage: {
             type: Boolean,
             reflectToAttribute: true
           },
@@ -300,8 +303,8 @@
       getValueFromKey(item, key){
         return item[key];
       }
-      isEqual(sortkey, key){
-        return sortkey == key;
+      isEqual(sortKey, key){
+        return sortKey == key;
       }
       
       _pageSizeUpdated(newValue,oldValue){
@@ -322,13 +325,13 @@
         return direction == 'asc';
       }
       sortClicked(event){
-        this.sortkey = event.model.item.key;
+        this.sortKey = event.model.item.key;
         if(this.sortDirection == 'asc'){
           this.sortDirection = 'desc';
         }else{
           this.sortDirection = 'asc';
         }
-        this.dispatchEvent(new CustomEvent('sort-clicked', {bubbles: true, composed: true, detail: {sortKey: this.sortkey, sortDirection: this.sortDirection}}));
+        this.dispatchEvent(new CustomEvent('sort-clicked', {bubbles: true, composed: true, detail: {sortKey: this.sortKey, sortDirection: this.sortDirection}}));
       }
     }
 
