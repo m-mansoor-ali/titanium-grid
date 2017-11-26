@@ -21,7 +21,7 @@
     "polymer": "^2.0.0"
   },
   "demos": {
-    "Demo": "index.html"
+    "Demo": "demo/index.html"
   },
   "keywords": [
     "web-components",
