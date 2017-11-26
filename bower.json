@@ -21,6 +21,16 @@
     "polymer": "^2.0.0"
   },
   "demos": {
-    "Demo": "demo/index.html"
+    "Demo": "index.html"
+  },
+  "keywords": [
+    "web-components",
+    "polymer",
+    "demo",
+    "titanium-grid"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/M-Mansoor-Ali/titanium-grid.git"
   }
 }
