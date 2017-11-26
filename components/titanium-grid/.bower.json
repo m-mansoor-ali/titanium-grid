@@ -1,0 +1,37 @@
+{
+  "name": "titanium-grid",
+  "description": "titanium-grid is a free, high-quality data grid / data table @Polymer elementPolymer element",
+  "main": "titanium-grid.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0",
+    "paper-material": "polymerelements/paper-material#^2.0.0",
+    "iron-ajax": "polymerelements/iron-ajax#^2.0.5",
+    "paper-dropdown-menu": "polymerelements/paper-dropdown-menu#^2.0.0",
+    "paper-listbox": "polymerelements/paper-listbox#^2.0.0",
+    "paper-item": "polymerelements/paper-item#^2.0.0",
+    "paper-icon-button": "polymerelements/paper-icon-button#^2.0.1",
+    "iron-icons": "polymerelements/iron-icons#^2.0.1"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0"
+  },
+  "demos": {
+    "Demo": "demo/index.html"
+  },
+  "homepage": "https://github.com/M-Mansoor-Ali/titanium-grid",
+  "_release": "05edf0a775",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "05edf0a77510fb064172b16485f67dae70326cc9"
+  },
+  "_source": "https://github.com/M-Mansoor-Ali/titanium-grid.git",
+  "_target": "master",
+  "_originalSource": "M-Mansoor-Ali/titanium-grid",
+  "_direct": true
+}

@@ -1,0 +1,340 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
+
+<link rel="import" href="bower_components/paper-material/paper-material.html">
+<link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="titanium-grid">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: var(--titanium-grid-width, 700px);
+      }
+      paper-material{
+        overflow-x:auto;
+        background-color: white;
+      }
+      table {
+          width: 100%;
+          display: table;
+          border-collapse: collapse;
+          border-spacing: 0;
+      }
+      table, th, td {
+          border: none;
+      }
+      thead {
+          display: table-header-group;
+          vertical-align: middle;
+          border-color: inherit;
+      }
+      thead {
+          border-bottom: 1px solid #d0d0d0;
+      }
+      tbody {
+          display: table-row-group;
+          vertical-align: middle;
+          border-color: inherit;
+      }
+      td, th {
+          padding: 15px 15px;
+          display: table-cell;
+          text-align: left;
+          vertical-align: middle;
+          border-radius: 2px;
+          font-weight: 300;
+      }
+      td{
+        word-break: break-word;
+      }
+      th{
+        font-size: 15px;
+        color: gray;
+      }
+      th .columnTitle{
+        cursor: pointer;
+      }
+      table.striped>tbody>tr:nth-child(odd){
+        background-color:#f2f2f2
+      }
+      table.striped>tbody>tr>td{
+        border-radius:0
+      }
+      table.highlight>tbody>tr{
+        -webkit-transition:background-color .25s ease;transition:background-color .25s ease
+      }
+      table.highlight>tbody>tr:hover{
+        background-color:#f2f2f2
+      }
+      table.centered thead tr th,table.centered tbody tr td{
+        text-align:center
+      }
+      .gridTitle{
+        font-weight: 400;
+        font-size: 25px;
+        color: rgb(87, 87, 87);
+        padding-left: 15px;
+        padding-top: 15px;
+        padding-bottom: 5px;
+      }
+      tr.paginationRow, tr.paginationRow:hover{
+        background-color: white !important;
+      }
+      .gridPagination{
+        font-size: 12px;
+        font-weight: 100;
+        color: gray;
+        float: right;
+      }
+      paper-dropdown-menu{
+        width: 50px;
+      }
+    </style>
+
+    <style is="custom-style">
+        paper-dropdown-menu.custom {
+          --paper-input-container-label: {
+            color: var(--paper-pink-500);
+            font-style: italic;
+            text-align: center;
+            font-weight: bold;
+          };
+          --paper-input-container-input: {
+            font-style: normal;
+            text-transform: uppercase;
+            font-size: 14px;
+          };
+          /* no underline */
+          --paper-input-container-underline: {
+            display: none;
+          };
+        }
+    </style>
+
+    <paper-material elevation="{{elevation}}">
+      <template is="dom-if" if="{{gridTitle}}">
+        <div class="gridTitle">
+          <span>{{gridTitle}}</span>
+        </div>
+      </template>
+        <table class$="{{rowStyle}}">
+            <thead>
+              <tr>
+                <template is="dom-repeat" items="{{columns}}">
+                    <th>
+                      <span class="columnTitle" on-tap="sortClicked" id="column-{{item.key}}">
+                        {{item.value}}
+                        <span hidden$="[[!isEqual(sortKey, item.key)]]">
+                          <iron-icon icon="arrow-drop-up" hidden$="[[sortDescending(sortDirection)]]"></iron-icon>
+                          <iron-icon icon="arrow-drop-down" hidden$=[[sortAscending(sortDirection)]]></iron-icon>
+                        </span>
+                      </span>
+                    </th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{content}}">
+                  <tr>
+                    <template is="dom-repeat" items="{{columns}}" as="column">
+                      <td>[[getValueFromKey(item,column.key)]]</td>
+                    </template>
+                  </tr>
+                </template>
+            </tbody>
+            <tfoot>
+                <tr class="paginationRow">
+                    <th colspan="9999">
+                        <div class="gridPagination">
+                            <span>Rows per page : </span>&nbsp;&nbsp;
+                            <paper-dropdown-menu class="custom">
+                                <paper-listbox slot="dropdown-content" selected="{{pageSize}}" attr-for-selected="key">
+                                  <template is="dom-repeat" items="{{sizeSelectorList}}">
+                                    <paper-item key="{{item.key}}" >{{item.value}}</paper-item>
+                                  </template>
+                                </paper-listbox>
+                             </paper-dropdown-menu>&nbsp;&nbsp;
+                            <span>{{firstRow}} - {{lastRow}} of {{totalRows}}</span>&nbsp;
+                            <paper-icon-button on-tap="previousClicked" icon="chevron-left" id="prev-button"></paper-icon-button>
+                            <paper-icon-button on-tap="nextClicked" icon="chevron-right" id="next-button"></paper-icon-button>
+                        </div>
+                    </th>
+                  </tr>
+            </tfoot>
+          </table>
+          
+    </paper-material>
+  </template>
+
+  <script>
+    /**
+     * #`titanium-grid`
+     * `<titanium-grid>` is a free, high-quality data grid / data table @Polymer element
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+
+     /**
+        * @event page-size-updated
+        * Fired when page size is changed.
+        * adds oldPageSize and newPageSize in event.detail
+        */
+        /**
+        * @event previous-clicked
+        * Fired when `previous` is clicked in the pagination.
+        */
+        /**
+        * @event next-clicked
+        * Fired when `next` is clicked in the pagination.
+        */
+        /**
+        * @event sort-clicked
+        * Fired when a column is clicked for sorting.
+        * adds sortKey and sortDirection in event.detail
+        */
+        
+    class TitaniumGrid extends Polymer.Element {
+      static get is() { return 'titanium-grid'; }
+      static get properties() {
+        return {
+          /** Elevation of the grid */
+          elevation: {
+            type: String,
+            value: '1',
+            reflectToAttribute: true
+          },
+          /** Row Style of the grid i.e striped/highlight/centered */
+          rowStyle: {
+            type: String,
+            value: 'highlight',
+            reflectToAttribute: true
+          },
+          /** Title of the grid */
+          gridTitle:{
+            type: String,
+            value: '',
+            reflectToAttribute: true
+          },
+          /** 
+            * The column titles
+            * Array of key value pairs
+            * e.g [{"key":"titleKey","value":"titleDescription"}, {...}, {...}]
+            * titleKey will be included in the sort-clicked event as 'sortKey'
+           */
+          columns: {
+            type: Object,
+            reflectToAttribute: true
+          },
+          content: {
+            type: Object,
+            reflectToAttribute: true,
+            notify: true
+          },
+          /** Total number of rows */
+          totalRows: {
+            type: Number,
+            reflectToAttribute: true,
+            value: 0
+          },
+          /** Row number of the first row in the current page */
+          firstRow: {
+            type: Number,
+            reflectToAttribute: true,
+            value: 0
+          },
+          /** Row number of the last row in the current page */
+          lastRow: {
+            type: Number,
+            reflectToAttribute: true,
+            value: 0
+          },
+          /** Size of the current page */
+          pageSize: {
+            type: Number,
+            reflectToAttribute: true,
+            observer: '_pageSizeUpdated',
+            value: 0
+          },
+          /** Current page number */
+          pageNumber: {
+            type: Number,
+            reflectToAttribute: true,
+            value: 0
+          },
+          /** True if current page is the first page */
+          isFirstPage: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          /** True if current page is the last page */
+          isLastPage: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          /** Column key  */
+          sortKey:{
+            type: String,
+            reflectToAttribute: true,
+            value: ''
+          },
+          /** Direction of sort i.e 'asc' or 'desc'  */
+          sortDirection: {
+            type: String,
+            reflectToAttribute: true,
+            value: 'desc'
+          },
+          /** 
+            * * Array of key value pairs to populate page size dropdown
+            * e.g [{"key":"5","value":"5"}, {"key":"10","value":"10"}, {"key":"15","value":"15"}]
+            */
+          sizeSelectorList: {
+            type: Object,
+            reflectToAttribute: true
+          }
+        };
+      }
+      getValueFromKey(item, key){
+        return item[key];
+      }
+      isEqual(sortKey, key){
+        return sortKey == key;
+      }
+      
+      _pageSizeUpdated(newValue,oldValue){
+        if(!(oldValue === undefined) && !(newValue == oldValue)){
+          this.dispatchEvent(new CustomEvent('page-size-updated', {bubbles: true, composed: true, detail: {oldPageSize: oldValue, newPageSize: newValue}}));
+        }
+      }
+      previousClicked(){
+        this.dispatchEvent(new CustomEvent('previous-clicked', {bubbles: true, composed: true}));
+      }
+      nextClicked(){
+        this.dispatchEvent(new CustomEvent('next-clicked', {bubbles: true, composed: true}));
+      }
+      sortDescending(direction){
+        return direction == 'desc';
+      }
+      sortAscending(direction){
+        return direction == 'asc';
+      }
+      sortClicked(event){
+        this.sortKey = event.model.item.key;
+        if(this.sortDirection == 'asc'){
+          this.sortDirection = 'desc';
+        }else{
+          this.sortDirection = 'asc';
+        }
+        this.dispatchEvent(new CustomEvent('sort-clicked', {bubbles: true, composed: true, detail: {sortKey: this.sortKey, sortDirection: this.sortDirection}}));
+      }
+    }
+
+    window.customElements.define(TitaniumGrid.is, TitaniumGrid);
+  </script>
+</dom-module>
