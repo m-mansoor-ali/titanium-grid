@@ -1,8 +1,12 @@
 `<titanium-grid>`
 ===================
 
+[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/M-Mansoor-Ali/titanium-grid/)
 
 [&lt;titanium-grid&gt;](https://github.com/M-Mansoor-Ali/titanium-grid/) is a free, high quality data grid / data table [Polymer](http://polymer-project.org) element.
+
+[Live Demo] (https://m-mansoor-ali.github.io/titanium-grid/components/titanium-grid/demo/)
+===================
 
 ----------
 
