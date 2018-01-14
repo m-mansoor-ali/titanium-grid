@@ -30398,148 +30398,61 @@ var TitaniumGrid = function (_Polymer$Element) {
 }(Polymer.Element);
 
 window.customElements.define(TitaniumGrid.is, TitaniumGrid);</script>
-</dom-module></div><custom-style>
+</dom-module><script>var sampleData = [{ "name": "Melany Roobottom", "email": "mroobottom0@google.cn", "job": "VP Sales" }, { "name": "Adolf Bagg", "email": "abagg1@state.gov", "job": "Engineer II" }, { "name": "Marybelle Isacsson", "email": "misacsson2@mediafire.com", "job": "Assistant Manager" }, { "name": "Dallon Gloyens", "email": "dgloyens3@chronoengine.com", "job": "Chief Design Engineer" }, { "name": "Rosalinde Capel", "email": "rcapel4@bandcamp.com", "job": "Compensation Analyst" }, { "name": "Brit Rickard", "email": "brickard5@ca.gov", "job": "Database Administrator IV" }, { "name": "Aurea Summerlie", "email": "asummerlie6@addtoany.com", "job": "Physical Therapy Assistant" }, { "name": "Hank Matzl", "email": "hmatzl7@dailymail.co.uk", "job": "Biostatistician II" }, { "name": "Bartholomeus Hedworth", "email": "bhedworth8@freewebs.com", "job": "Speech Pathologist" }, { "name": "Westleigh Dopson", "email": "wdopson9@hao123.com", "job": "Occupational Therapist" }, { "name": "Xerxes Papachristophorou", "email": "xpapachristophoroua@ucla.edu", "job": "Mechanical Systems Engineer" }, { "name": "Germaine Give", "email": "ggiveb@zimbio.com", "job": "Environmental Tech" }, { "name": "Dannye Renzini", "email": "drenzinic@prlog.org", "job": "Social Worker" }, { "name": "Myriam Lomasny", "email": "mlomasnyd@engadget.com", "job": "Physical Therapy Assistant" }, { "name": "Nerissa Antonowicz", "email": "nantonowicze@nih.gov", "job": "Developer IV" }];</script></div><custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
       </style>
     </custom-style>
   
   
     <div class="vertical-section-container centered">
-      <h3>Using titanium-grid inside another element</h3>
+      <h3>titanium-grid demo</h3>
       <demo-snippet>
         <template>
-          <dom-module id="titanium-grid-demo">
-            <template>
-              <div class="maindiv">
-                <iron-ajax id="iron-ajax" auto="" url="{{url}}" handle-as="json" on-response="handleResponse"></iron-ajax>
-              <div>
-                <titanium-grid id="titaniumGrid" elevation="2" row-style="highlight" columns="{{columns}}" grid-title="{{title}}" content="{{content}}" total-rows="{{totalElements}}" first-row="{{firstRow}}" last-row="{{lastRow}}" page-size="{{pageSize}}" page-number="{{pageNumber}}" is-last-page="{{isLastPage}}" is-first-page="{{isFirstPage}}" size-selector-list="{{sizeSelectorList}}" sort-key="{{sortBy}}" sort-direction="{{sortDirection}}" on-page-size-updated="updatePageSize" on-previous-clicked="previousPage" on-next-clicked="nextPage" on-sort-clicked="sortClicked">
-                  </titanium-grid>
-                </div>
-              </div>
-            </template>
-            <script>
-              /*
-              * I am using this spring boot rest api for demo
-              * https://fast-eyrie-45591.herokuapp.com/user
-              * Following is a sample response that i get
-              * {"content":[{"name":"Aubry Alberti","email":"aalberti9p@squarespace.com","job":"Senior Editor"},
-                {"name":"Adolf Bagg","email":"abagg1@state.gov","job":"Engineer II"},
-                {"name":"Arleen Bearns","email":"abearnsdd@salon.com","job":"Structural Analysis Engineer"},
-                {"name":"Alexis Bode","email":"abode2o@printfriendly.com","job":"Community Outreach Specialist"},
-                {"name":"Alfreda Brockhouse","email":"abrockhouse3n@youtube.com","job":"Engineer II"}],
-                "last":false,"totalPages":100,"totalElements":500,"first":true,
-                "sort":[{"direction":"ASC","property":"email","ignoreCase":false,"nullHandling":"NATIVE","descending":false,"ascending":true}],"numberOfElements":5,"size":5,"number":0}
-              */
-              HTMLImports.whenReady(function() {
-                class TitaniumGridDemo extends Polymer.Element {
-                  static get is() { return 'titanium-grid-demo'; }
-                  static get properties() {
-                    return {
-                      attached: {
-                        type: Boolean,
-                        value: false
-                      },
-                      content: Object,
-                      totalElements: {
-                        type: Number
-                      },
-                      firstRow: {
-                        type: Number
-                      },
-                      lastRow: {
-                        type: Number
-                      },
-                      pageSize: {
-                        type: Number,
-                        observer: '_updateUrl'
-                      },
-                      pageNumber: {
-                        type: Number,
-                        observer: '_updateUrl'
-                      },
-                      isLastPage: Boolean,
-                      isFirstPage: Boolean,
-                      title:{
-                        type: String,
-                        value: 'User Details'
-                      },
-                      baseurl:{
-                        type: String,
-                        value: 'https://fast-eyrie-45591.herokuapp.com/user'
-                      },
-                      url:{
-                        type: String,
-                        value: 'https://fast-eyrie-45591.herokuapp.com/user'
-                      },
-                      columns: {
-                        type: Object,
-                        value: [{"key":"name","value":"Name"},{"key":"email","value":"Email Address"},{"key":"job","value":"Job Title"}],
-                      },
-                      sizeSelectorList: {
-                        type: Object,
-                        value: [{"key":"5","value":"5"},{"key":"10","value":"10"},{"key":"15","value":"15"}],
-                      },
-                      sortBy:{
-                        type: String,
-                        observer: '_updateUrl'
-                      },
-                      sortDirection:{
-                        type: String,
-                        observer: '_updateUrl'
-                      }
-                    };
-                  }
-                  handleResponse(event){
-                    //console.log(event.detail.response);
-                    this.attached = false;
-                    var response = event.detail.response;
-                    this.totalElements = response.totalElements;
-                    this.content = response.content;
-                    this.pageNumber = response.number + 1;
-                    this.isLastPage = response.last;
-                    this.isFirstPage = response.first;
-                    this.pageSize = response.size;
-                    this.lastRow = response.size * (response.number + 1);
-                    this.firstRow = (this.lastRow - response.size) + 1;
-                    this.sortBy = response.sort? response.sort[0].property : '';
-                    this.sortDirection = (response.sort? response.sort[0].direction : '').toLowerCase();
-                    this.attached = true;
-                  }
-                  _updateUrl(){
-                    if(this.attached){
-                      this.url = this.baseurl + "?size=" + this.pageSize + "&number=" + (this.pageNumber - 1) + "&sort=" + this.sortBy + "," + this.sortDirection;
-                      //console.log(this.url);
-                    }
-                  }
-                  updatePageSize(event){
-                    this.pageSize = event.detail.newPageSize;
-                  }
-                  previousPage(){
-                    if(!this.isFirstPage){
-                      this.pageNumber -= 1;
-                    }
-                  }
-                  nextPage(){
-                    if(!this.isLastPage){
-                      this.pageNumber += 1;
-                    }
-                  }
-                  sortClicked(event){
-                    if(this.sortDirection != event.detail.sortDirection){
-                      this.sortDirection = event.detail.sortDirection;
-                    }
-                    this.sortBy = event.detail.sortKey;
-                  }
-                }
-                window.customElements.define(TitaniumGridDemo.is, TitaniumGridDemo);
-              });
-            </script>
-        </dom-module>
-        <titanium-grid-demo></titanium-grid-demo>
+            <titanium-grid id="titaniumGrid" elevation="2" row-style="highlight" columns="[{&quot;key&quot;:&quot;name&quot;,&quot;value&quot;:&quot;Name&quot;},{&quot;key&quot;:&quot;email&quot;,&quot;value&quot;:&quot;Email Address&quot;},{&quot;key&quot;:&quot;job&quot;,&quot;value&quot;:&quot;Job Title&quot;}]" ,="" grid-title="Users" total-rows="50" first-row="1" last-row="5" page-size="5" page-number="0" is-last-page="false" is-first-page="true" size-selector-list="[{&quot;key&quot;:&quot;5&quot;,&quot;value&quot;:&quot;5&quot;},{&quot;key&quot;:&quot;10&quot;,&quot;value&quot;:&quot;10&quot;},{&quot;key&quot;:&quot;15&quot;,&quot;value&quot;:&quot;15&quot;}]" sort-key="name" sort-direction="asc">
+            </titanium-grid>
+
+            <!--
+            /**
+            * @event page-size-updated
+            * Fired when page size is changed.
+            * adds oldPageSize and newPageSize in event.detail
+            */
+            /**
+            * @event previous-clicked
+            * Fired when `previous` is clicked in the pagination.
+            */
+            /**
+            * @event next-clicked
+            * Fired when `next` is clicked in the pagination.
+            */
+            /**
+            * @event sort-clicked
+            * Fired when a column is clicked for sorting.
+            * adds sortKey and sortDirection in event.detail
+            */
+            -->
         </template>
       </demo-snippet>
     </div>
+    <script type="text/javascript">
+
+document.getElementById("titaniumGrid").setAttribute('content', JSON.stringify(sampleData.slice(0, 5)));
+
+document.getElementById("titaniumGrid").addEventListener("page-size-updated", function (e) {
+  alert('on-page-size-updated.\n');
+});
+
+document.getElementById("titaniumGrid").addEventListener("previous-clicked", function (e) {
+  alert('on-previous-clicked.\n');
+});
+
+document.getElementById("titaniumGrid").addEventListener("next-clicked", function (e) {
+  alert('on-next-clicked.\n');
+});
+
+document.getElementById("titaniumGrid").addEventListener("sort-clicked", function (e) {
+  alert('on-sort-clicked.\n' + JSON.stringify(e.detail));
+});</script>
   
 
 </body></html>

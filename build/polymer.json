@@ -6,6 +6,7 @@
     "demo\\*",
     "titanium-grid.html",
     "bower.json",
+    "sample.js",
     "demo\\index.html"
   ],
   "extraDependencies": [

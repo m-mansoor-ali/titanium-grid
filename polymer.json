@@ -4,7 +4,8 @@
     "index.html",
     "demo/*",
     "titanium-grid.html",
-    "bower.json"
+    "bower.json",
+    "sample.js"
   ],
   "extraDependencies": [
     "bower_components/webcomponentsjs/webcomponents-lite.js",
