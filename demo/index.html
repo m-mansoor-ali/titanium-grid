@@ -72,7 +72,7 @@
       document.getElementById("titaniumGrid").setAttribute('content', JSON.stringify(sampleData.slice(0,5)));
 
       document.getElementById("titaniumGrid").addEventListener("page-size-updated", function (e) {
-        alert('on-page-size-updated.\n');
+        alert('on-page-size-updated.\n' + JSON.stringify(e.detail));
       });
 
       document.getElementById("titaniumGrid").addEventListener("previous-clicked", function (e) {
