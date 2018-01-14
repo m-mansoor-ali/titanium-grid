@@ -1,0 +1,43 @@
+{
+  "entrypoint": "demo\\index.html",
+  "fragments": [],
+  "sources": [
+    "index.html",
+    "demo\\*",
+    "titanium-grid.html",
+    "bower.json",
+    "demo\\index.html"
+  ],
+  "extraDependencies": [
+    "bower_components\\webcomponentsjs\\*.js",
+    "bower_components\\webcomponentsjs\\webcomponents-lite.js",
+    "bower_components\\polymer\\polymer.html",
+    "bower_components\\polymer\\polymer-element.html",
+    "bower_components\\iron-demo-helpers\\demo-pages-shared-styles.html",
+    "bower_components\\iron-demo-helpers\\demo-snippet.html"
+  ],
+  "builds": [
+    {
+      "name": "es5-bundled",
+      "js": {
+        "minify": false,
+        "compile": true
+      },
+      "css": {
+        "minify": false
+      },
+      "html": {
+        "minify": false
+      },
+      "bundle": true,
+      "addServiceWorker": false,
+      "addPushManifest": false,
+      "preset": "es5-bundled"
+    }
+  ],
+  "lint": {
+    "rules": [
+      "polymer-2"
+    ]
+  }
+}

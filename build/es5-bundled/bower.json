@@ -1,9 +1,6 @@
 {
   "name": "titanium-grid",
   "description": "titanium-grid is a free, high-quality data grid / data table @Polymer elementPolymer element",
-  "authors": [
-    "m-mansoor-ali"
-  ],
   "main": "titanium-grid.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
@@ -24,7 +21,7 @@
     "polymer": "^2.0.0"
   },
   "demos": {
-    "Demo": "build/es5-bundled/demo/index.html"
+    "Demo": "demo/index.html"
   },
   "keywords": [
     "web-components",
